@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import { CALL_AXIOS_TIMEOUT } from '@/constants/config/app';
 
 export const apiService = axios.create({
   headers: {
@@ -7,7 +8,7 @@ export const apiService = axios.create({
     'Accept': 'application/json'
   },
   baseURL: process.env.BACKEND_URL,
-  timeout: 10 * 1000,
+  timeout: CALL_AXIOS_TIMEOUT,
 });
 
 const handleError = (error: AxiosError): Promise<AxiosError> => {

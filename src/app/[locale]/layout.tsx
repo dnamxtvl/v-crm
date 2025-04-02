@@ -2,6 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Providers } from "@/store/provider";
 
 export default async function LocaleLayout({
   children,
@@ -16,12 +17,14 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider>
-          <AntdRegistry>{children}</AntdRegistry>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <Providers>
+      <html lang={locale}>
+        <body>
+          <NextIntlClientProvider>
+            <AntdRegistry>{children}</AntdRegistry>
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    </Providers>
   );
 }
