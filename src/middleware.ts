@@ -4,6 +4,10 @@ const defaultLocale = "vi";
 const locales = ["en", "vi"];
 
 export default function middleware(request: NextRequest) {
+  if (request.cookies.get('isLogined')?.value !== 'true') {
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
+
   const { pathname } = request.nextUrl;
 
   const pathnameHasLocale = locales.some(

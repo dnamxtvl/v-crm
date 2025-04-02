@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Providers } from "@/store/provider";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { queryClient } from "@/utils/query";
 
 export default async function LocaleLayout({
   children,
@@ -20,9 +23,12 @@ export default async function LocaleLayout({
     <Providers>
       <html lang={locale}>
         <body>
-          <NextIntlClientProvider>
-            <AntdRegistry>{children}</AntdRegistry>
-          </NextIntlClientProvider>
+          <QueryClientProvider client={queryClient}>
+            <NextIntlClientProvider>
+              <AntdRegistry>{children}</AntdRegistry>
+            </NextIntlClientProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
         </body>
       </html>
     </Providers>

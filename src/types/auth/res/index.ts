@@ -10,3 +10,10 @@ export interface LoginResponse {
   token: string;
   expires_at: string;
 }
+
+export interface ResponseData<T> {
+  status: string;
+  code: number;
+  message: string;
+  data: T;
+}
