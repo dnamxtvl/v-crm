@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import CookieManager from '@/utils/cookies';
+import { getCookie } from 'cookies-next/client';
 
 interface UserProfile {
     id: number,
     email: string,
-    userName: string,
+    name: string,
     avatar: string | null
 }
 
@@ -15,9 +15,9 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    token: CookieManager.getCookie('token') ?? null,
-    isLogined: CookieManager.getCookie('isLogined') ?? false,
-    userProfile: CookieManager.getCookie('userProfile') ? JSON.parse(CookieManager.getCookie('userProfile') as string) : null
+    token: getCookie('token') ? getCookie('token') as string : null,
+    isLogined: getCookie('isLogined') ? getCookie('isLogined') as unknown as boolean : false,
+    userProfile: getCookie('userProfile') ? JSON.parse(getCookie('userProfile') as string) : null
 };
 
 const authSlice = createSlice({

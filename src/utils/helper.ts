@@ -1,13 +1,15 @@
 import dayjs from "dayjs";
 import {
-  DEFAULT_PAGE,
-  DEFAULT_PER_PAGE,
   JWT_KEY_ACEESS_TOKEN_NAME,
   USER_PROFILE_KEY_NAME,
+  EXPIRES_COOKIE_DAY,
 } from "@/constants/config/app";
-import CookieManager from "./cookies";
 import { useValidator } from "./validator";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { setCookie, deleteCookie } from "cookies-next/client";
+import { useDispatch } from "react-redux";
+import { clearToken, setProfile, setToken } from "@/store/slices/authSlice";
+import { LoginResponse } from "@/types/auth/res";
 
 dayjs.extend(relativeTime);
 
@@ -20,11 +22,14 @@ export default class Helper {
     return String(error);
   };
 
-  //   static logOutWhenTokenExpired = () => {
-  //     CookieManager.setCookie("isLoggedIn", false);
-  //     let store = useMainStore();
-  //     store.logout(store.$state);
-  //   };
+  static logOutWhenTokenExpired = () => {
+    const dispatch = useDispatch();
+    setCookie("isLoggedIn", false);
+    deleteCookie(JWT_KEY_ACEESS_TOKEN_NAME);
+    deleteCookie(USER_PROFILE_KEY_NAME);
+
+    dispatch(clearToken());
+  };
 
   static getRandomColor() {
     const letters = "0123456789ABCDEF";
@@ -51,19 +56,28 @@ export default class Helper {
     )}:${String(remainingSeconds).padStart(2, "0")}`;
   }
 
-  //   static setValueStoreLogin = async (data: LoginResponse) => {
-  //     let store = useMainStore();
-  //     const userInfo = {
-  //       id: data.user.id,
-  //       email: data.user.email,
-  //       name: data.user.name,
-  //       avatar: data.user.avatar,
-  //     };
-  //     CookieManager.setCookie("isLoggedIn", true);
-  //     CookieManager.setCookie(JWT_KEY_ACEESS_TOKEN_NAME, data.token);
-  //     CookieManager.setCookie(USER_PROFILE_KEY_NAME, userInfo);
-  //     store.login(store.$state, userInfo, data.token);
-  //   };
+  static setValueStoreLogin = async (data: LoginResponse) => {
+    const dispatch = useDispatch();
+    const userInfo = {
+      id: data.user.id as unknown as number,
+      email: data.user.email,
+      name: data.user.name,
+      avatar: data.user.avatar ?? null,
+    };
+
+    setCookie("isLoggedIn", true, {
+      maxAge: EXPIRES_COOKIE_DAY * 24 * 60 * 60,
+    });
+    setCookie(JWT_KEY_ACEESS_TOKEN_NAME, data.token, {
+      maxAge: EXPIRES_COOKIE_DAY * 24 * 60 * 60,
+    });
+    setCookie(USER_PROFILE_KEY_NAME, userInfo, {
+      maxAge: EXPIRES_COOKIE_DAY * 24 * 60 * 60,
+    });
+
+    dispatch(setToken(data.token));
+    dispatch(setProfile(userInfo));
+  };
 
   static scrollToTop = (elementId: string) => {
     document
