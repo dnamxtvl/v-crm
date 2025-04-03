@@ -1,4 +1,4 @@
-import AuthQuery from "../auth/authQuery";
+import AuthQuery from "@/services/auth/authQuery";
 
 const query = {
   auth: new AuthQuery(),

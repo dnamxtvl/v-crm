@@ -2,10 +2,10 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { Providers } from "@/store/provider";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { ReduxProviders } from "@/providers/provider";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { queryClient } from "@/utils/query";
+import { QueryProvider } from "@/providers/queryProvider";
+import '../../assets/globals.css'
 
 export default async function LocaleLayout({
   children,
@@ -20,17 +20,17 @@ export default async function LocaleLayout({
   }
 
   return (
-    <Providers>
+    <ReduxProviders>
       <html lang={locale}>
         <body>
-          <QueryClientProvider client={queryClient}>
+          <QueryProvider>
             <NextIntlClientProvider>
               <AntdRegistry>{children}</AntdRegistry>
             </NextIntlClientProvider>
             <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
+          </QueryProvider>
         </body>
       </html>
-    </Providers>
+    </ReduxProviders>
   );
 }

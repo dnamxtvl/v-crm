@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getCookie } from 'cookies-next/client';
+import { getCookie } from 'cookies-next';
 
 interface UserProfile {
     id: number,

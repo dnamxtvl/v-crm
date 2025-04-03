@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -15,15 +15,15 @@
     "@tanstack/react-query-devtools": "^5.71.2",
     "antd": "^5.24.6",
     "axios": "^1.8.4",
-    "cookies-next": "^5.1.0",
+    "cookies-next": "^4.1.0",
     "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
-    "next": "15.2.4",
+    "next": "14.2.4",
     "next-intl": "^4.0.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
     "validator": "^13.15.0"
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/estree": "^1.0.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

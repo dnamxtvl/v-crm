@@ -4,9 +4,11 @@ const defaultLocale = "vi";
 const locales = ["en", "vi"];
 
 export default function middleware(request: NextRequest) {
-  if (request.cookies.get('isLogined')?.value !== 'true') {
-    return NextResponse.redirect(new URL('/auth/login', request.url));
-  }
+//   if (request.cookies.get('isLogined')?.value !== 'true') {
+//     if (!request.nextUrl.pathname.includes('/auth/login')) {
+//         return NextResponse.redirect(new URL('/auth/login', request.url));
+//     }
+//   }
 
   const { pathname } = request.nextUrl;
 
