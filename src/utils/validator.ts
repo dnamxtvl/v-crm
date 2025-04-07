@@ -1,4 +1,4 @@
-import { RULES_VALIDATION } from '@/constants/config/validation';
+import { RULES_VALIDATION } from '@/validate/rules';
 import validator from 'validator';
 import { PER_PAGE } from '@/constants/config/app';
 

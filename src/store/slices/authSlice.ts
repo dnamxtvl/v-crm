@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getCookie } from 'cookies-next';
+import { defaultLocale } from '../../../i18n.config';
 
 interface UserProfile {
-    id: number,
+    id: string,
     email: string,
     name: string,
     avatar: string | null
@@ -11,13 +12,15 @@ interface UserProfile {
 interface AuthState {
     token: string | null,
     isLogined: string | boolean,
-    userProfile: UserProfile | null
+    userProfile: UserProfile | null,
+    lang: string
 }
 
 const initialState: AuthState = {
     token: getCookie('token') ? getCookie('token') as string : null,
     isLogined: getCookie('isLogined') ? getCookie('isLogined') as unknown as boolean : false,
-    userProfile: getCookie('userProfile') ? JSON.parse(getCookie('userProfile') as string) : null
+    userProfile: getCookie('userProfile') ? JSON.parse(getCookie('userProfile') as string) : null,
+    lang: getCookie('lang') ? getCookie('lang') as string : defaultLocale,
 };
 
 const authSlice = createSlice({
@@ -35,6 +38,9 @@ const authSlice = createSlice({
         },
         setProfile(state, action: PayloadAction<UserProfile>) {
             state.userProfile = action.payload
+        },
+        setLang(state, action: PayloadAction<string>) {
+            state.lang = action.payload
         }
     },
 });

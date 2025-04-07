@@ -1,0 +1,38 @@
+{
+  "homePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "auth": {
+    "validate": {
+      "email_required": "Email is required!",
+      "email_invalid": "Email is invalid!",
+      "email_max_length": "Email must be less than ",
+      "email_min_length": "Email must be more than ",
+      "charater": " characters",
+      "password_required": "Password is required!",
+      "password_max_length": "Password must be less than ",
+      "password_min_length": "Password must be more than ",
+      "password_invalid": "Password is invalid!"
+    },
+    "label": {
+      "email": "Email",
+      "password": "Password",
+      "login": "Login",
+      "remember_me": "Remember me",
+      "forgot_password": "Forgot password",
+      "other_login": "Or login with",
+      "welcome_back": "Welcome back"
+    },
+    "placeholder": {
+      "email": "Enter your email",
+      "password": "Enter your password"
+    },
+    "form_title": "Sign in to your account"
+  },
+  "error_codes":  {
+    "1000000": "Internal server error!",
+    "1001871": "Email not registered!",
+    "1001872": "Email or password is incorrect!"
+  }
+}

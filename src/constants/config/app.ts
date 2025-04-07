@@ -16,6 +16,7 @@ export const ERR_MESSAGE = {
     504: 'getway_timeout',
 }
 
+export const DEFAULT_ERROR_CODE = 1000000;
 export const PER_PAGE = [10, 20, 50, 100];
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_PER_PAGE = 20;

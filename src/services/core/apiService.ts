@@ -4,6 +4,8 @@ import { CALL_AXIOS_TIMEOUT } from '@/constants/config/app';
 import Helper from '@/utils/helper';
 import { HttpStatusCode } from 'axios';
 import Router from 'next/router';
+import { store } from '@/store/store';
+import { ROUTE_APP } from '@/constants/config/route';
 
 export const apiService = axios.create({
   headers: {
@@ -14,18 +16,49 @@ export const apiService = axios.create({
   timeout: CALL_AXIOS_TIMEOUT,
 });
 
-const handleError = (error: AxiosError): Promise<AxiosError> => {
-  if (error.response?.status === HttpStatusCode.Unauthorized || error.response?.status === HttpStatusCode.GatewayTimeout) {
+interface ErrorResponse {
+  errors: {
+    code: string;
+  },
+  message: string
+}
+
+interface ErrorValidate {
+  errors: {
+    code: Array<string>;
+  },
+  message: string
+}
+
+const handleError = async (error: AxiosError): Promise<AxiosError> => {
+  const statusCode = error.response?.status || HttpStatusCode.InternalServerError;
+  let messageError: Array<string> = [];
+  
+  if (statusCode === HttpStatusCode.Unauthorized || statusCode === HttpStatusCode.GatewayTimeout) {
     Helper.logOutWhenTokenExpired();
-    Router.push('/login');
+    Router.push(ROUTE_APP.AUTH.LOGIN);
+  }
+
+  const errorRes: ErrorResponse | ErrorValidate | null = error.response?.data as ErrorResponse | ErrorValidate || null;
+  if (!errorRes || Object(errorRes).length === 0) {
+    messageError.push(error.message);
+  } else {
+    const code = errorRes.errors.code;
+    if (Array.isArray(code)) {
+      code.forEach(async (item) => {
+        messageError.push(await Helper.getErrorMessage(item));
+      })
+    } else {
+      messageError.push(await Helper.getErrorMessage(code));
+    }
   }
   
-  message.error(error.message || 'error');
+  message.error(messageError.slice() || 'error');
   return Promise.reject(error);
 };
 
 apiService.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = '';
+  const token = store.getState().auth.token;
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }

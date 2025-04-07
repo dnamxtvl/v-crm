@@ -1,26 +1,35 @@
-import { NextResponse, NextRequest } from "next/server";
+// middleware.ts
 
-const defaultLocale = "vi";
-const locales = ["en", "vi"];
+import { NextRequest, NextResponse } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { defaultLocale, locales } from '../i18n.config';
 
-export default function middleware(request: NextRequest) {
-//   if (request.cookies.get('isLogined')?.value !== 'true') {
-//     if (!request.nextUrl.pathname.includes('/auth/login')) {
-//         return NextResponse.redirect(new URL('/auth/login', request.url));
-//     }
-//   }
+// Next-Intl Middleware
+const intlMiddleware = createMiddleware({
+  defaultLocale,
+  locales,
+  localeDetection: false,
+  localePrefix: 'as-needed',
+});
 
+const PUBLIC_ROUTES = ['/auth/login', '/auth/register', '/auth/forgot-password'];
+
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-  if (pathnameHasLocale) return;
+  if (PUBLIC_ROUTES.some((path) => pathname.startsWith(path))) {
+    return intlMiddleware(request);
+  }
 
-  request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  if (request.cookies.get('isLoggedIn')?.value !== 'true' && !pathname.startsWith('/auth')) {
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
+
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ],
 };

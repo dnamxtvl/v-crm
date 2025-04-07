@@ -3,25 +3,24 @@ import {
   JWT_KEY_ACEESS_TOKEN_NAME,
   USER_PROFILE_KEY_NAME,
   EXPIRES_COOKIE_DAY,
+  DEFAULT_ERROR_CODE,
 } from "@/constants/config/app";
 import { useValidator } from "./validator";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { setCookie, deleteCookie } from "cookies-next/client";
+import { setCookie, deleteCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { clearToken, setProfile, setToken } from "@/store/slices/authSlice";
 import { LoginResponse } from "@/types/auth/res";
+import { store } from "@/store/store";
 
 dayjs.extend(relativeTime);
 
+const localeMessages = {
+  en: () => import('@/locales/en.json'),
+  vi: () => import('@/locales/vi.json')
+};
+
 export default class Helper {
-  static getErrorMessage = (error: unknown): string => {
-    if (error instanceof Error) {
-      return error.message;
-    }
-
-    return String(error);
-  };
-
   static logOutWhenTokenExpired = () => {
     const dispatch = useDispatch();
     setCookie("isLoggedIn", false);
@@ -56,29 +55,6 @@ export default class Helper {
     )}:${String(remainingSeconds).padStart(2, "0")}`;
   }
 
-  static setValueStoreLogin = async (data: LoginResponse) => {
-    const dispatch = useDispatch();
-    const userInfo = {
-      id: data.user.id as unknown as number,
-      email: data.user.email,
-      name: data.user.name,
-      avatar: data.user.avatar ?? null,
-    };
-
-    setCookie("isLoggedIn", true, {
-      maxAge: EXPIRES_COOKIE_DAY * 24 * 60 * 60,
-    });
-    setCookie(JWT_KEY_ACEESS_TOKEN_NAME, data.token, {
-      maxAge: EXPIRES_COOKIE_DAY * 24 * 60 * 60,
-    });
-    setCookie(USER_PROFILE_KEY_NAME, userInfo, {
-      maxAge: EXPIRES_COOKIE_DAY * 24 * 60 * 60,
-    });
-
-    dispatch(setToken(data.token));
-    dispatch(setProfile(userInfo));
-  };
-
   static scrollToTop = (elementId: string) => {
     document
       .getElementById(elementId)
@@ -112,4 +88,11 @@ export default class Helper {
 
     return trimmedState;
   };
+
+  static getErrorMessage = async (code: string) => {
+    const locale = store.getState().auth.lang as keyof typeof localeMessages;
+    const messages: Record<string, string> = (await localeMessages[locale]()).default.error_codes;
+  
+    return messages[code] ?? messages[DEFAULT_ERROR_CODE];
+  }
 }

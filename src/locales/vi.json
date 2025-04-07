@@ -1,0 +1,38 @@
+{
+  "homePage": {
+    "title": "Xin chao!",
+    "about": "Vao trang gioi thieu"
+  },
+  "auth": {
+    "validate": {
+      "email_required": "Vui lòng nhập email!",
+      "email_invalid": "Email không hợp lệ!",
+      "email_max_length": "Email phải ít hơn ",
+      "email_min_length": "Email phải lớn hơn ",
+      "charater": " ký tự",
+      "password_required": "Vui lòng nhập mật khẩu!",
+      "password_max_length": "Mật khẩu phải ít hơn ",
+      "password_min_length": "Mật khẩu phải lớn hơn ",
+      "password_invalid": "Mật khẩu không hợp lệ!"
+    },
+    "label": {
+      "email": "Email",
+      "password": "Mật khẩu",
+      "login": "Dăng nhập",
+      "remember_me": "Ghi nhớ tài khoản",
+      "forgot_password": "Quên mật khẩu",
+      "other_login": "Hoặc đăng nhập với",
+      "welcome_back": "Xin chào"
+    },
+    "placeholder": {
+      "email": "Nhập email của bạn",
+      "password": "Nhập mật khẩu của bạn"
+    },
+    "form_title": "Đăng nhập với tài khoản của bạn"
+  },
+  "error_codes":  {
+    "1000000": "Đã xảy ra lỗi!",
+    "1001871": "Email chưa được đăng ký!",
+    "1001872": "Sai email hoặc mật khâu!"
+  }
+}

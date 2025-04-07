@@ -54,3 +54,4 @@ export const RULES_VALIDATION = {
     MAX_LENGTH: 20,
   },
 };
+  

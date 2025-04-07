@@ -4,15 +4,19 @@ import { LoginResponse } from "@/types/auth/res";
 import { useMutation } from "@tanstack/react-query";
 
 export default class AuthQuery {
-    authService = new AuthService();
+  authService = new AuthService();
 
-    loginMutation = (params: LoginRequest) => {
-        const mutation = useMutation<LoginResponse, Error, LoginRequest>({
-            mutationKey: ['loginApi'],
-            mutationFn: (request: LoginRequest) => this.authService.login(request),
-        });
-        const { mutateAsync: loginMutate } = mutation;
+  loginMutation = () => {
+    return useMutation<LoginResponse, Error, LoginRequest>({
+      mutationKey: ["loginApi"],
+      mutationFn: (request: LoginRequest) => this.authService.login(request),
+    });
+  };
 
-        return loginMutate(params);
-    }
+  logoutMutation = () => {
+    return useMutation<void, Error, void>({
+      mutationKey: ["logoutApi"],
+      mutationFn: () => this.authService.logout(),
+    });
+  };
 }

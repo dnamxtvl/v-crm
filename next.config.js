@@ -3,7 +3,9 @@ const createNextIntlPlugin = require('next-intl/plugin');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Cấu hình Next.js của bạn ở đây
+  env: {
+    BACKEND_URL: process.env.BACKEND_URL,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();

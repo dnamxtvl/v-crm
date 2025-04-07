@@ -1,8 +1,9 @@
 export const ROUTE_APP = {
+  HOME: "/admin",
   AUTH: {
-    LOGIN: "/admin/login",
+    LOGIN: "/auth/login",
   },
   USER: {
-    LIST: "/admin/contract/user",
+    LIST: "/admin//user",
   },
 };

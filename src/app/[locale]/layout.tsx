@@ -1,31 +1,31 @@
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ReduxProviders } from "@/providers/provider";
+import { NextIntlClientProvider } from "next-intl";
+import AntdProvider from "@/providers/antdProvider";
+import { ReduxProviders } from "@/providers/reduxProvider";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryProvider } from "@/providers/queryProvider";
-import '../../assets/globals.css'
+import '../../assets/globals.scss'
+import { getMessages } from "next-intl/server";
+
 
 export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }) {
-  const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+  const { locale } = params;
+  const messages = await getMessages();
 
   return (
     <ReduxProviders>
       <html lang={locale}>
         <body>
           <QueryProvider>
-            <NextIntlClientProvider>
-              <AntdRegistry>{children}</AntdRegistry>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <AntdProvider>
+                {children}
+              </AntdProvider>
             </NextIntlClientProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryProvider>

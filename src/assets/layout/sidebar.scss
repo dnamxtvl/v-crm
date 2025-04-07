@@ -1,0 +1,35 @@
+.logo {
+    height: 4rem;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ant-pro-sider-menu-logo {
+    height: 63px;
+    padding-left: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ant-pro-sider-menu-logo .logo {
+    color: #1890ff;
+}
+
+.ant-pro-sider-menu-logo .app-logo-sidebar {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    height: 3rem;
+    width: 9.5rem;
+    display: inline-block;
+}
+
+.ant-menu-submenu-title .anticon {
+    color: black;
+}
