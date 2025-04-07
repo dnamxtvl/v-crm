@@ -20,7 +20,7 @@ interface Props {
 
 const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
   const { mutateAsync: logoutMutate } = query.auth.logoutMutation();
-  const { logout } = useAuth();
+  const { logOut } = useAuth();
   const router = useRouter();
 
   const handleMenuClick = ({ key }: { key: string }) => {
@@ -42,7 +42,7 @@ const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
   const handleLogout =  async () => {
     try {
       await logoutMutate();
-      logout();
+      logOut();
     } catch (error) {}
 
     router.push(ROUTE_APP.AUTH.LOGIN);

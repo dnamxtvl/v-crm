@@ -36,6 +36,8 @@ const handleError = async (error: AxiosError): Promise<AxiosError> => {
   
   if (statusCode === HttpStatusCode.Unauthorized || statusCode === HttpStatusCode.GatewayTimeout) {
     Helper.logOutWhenTokenExpired();
+    message.error(error.message || 'error');
+
     Router.push(ROUTE_APP.AUTH.LOGIN);
   }
 

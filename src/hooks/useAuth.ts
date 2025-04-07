@@ -40,5 +40,5 @@ export const useAuth = () => {
     dispatch(clearToken());
   };
 
-  return { login };
+  return { login, logOut };
 };
