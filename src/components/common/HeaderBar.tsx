@@ -7,11 +7,16 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import '../../assets/layout/header.scss';
-import { useRouter } from '../../../i18n.config';
+import { useRouter, usePathname } from '../../../i18n.config';
 import { MenuProps } from 'antd';
 import query from '@/services/core/api';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTE_APP } from '@/constants/config/route';
+import { useDispatch } from "react-redux";
+import { useParams } from "next/navigation";
+import { defaultLocale } from '../../../i18n.config';
+import { setLang } from '@/store/slices/authSlice';
+import { setCookie } from 'cookies-next';
 
 interface Props {
   collapsed: boolean;
@@ -22,6 +27,9 @@ const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
   const { mutateAsync: logoutMutate } = query.auth.logoutMutation();
   const { logOut } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const { locale } = useParams<{ locale: string }>();
+  const dispatch = useDispatch();
 
   const handleMenuClick = ({ key }: { key: string }) => {
     switch (key) {
@@ -70,6 +78,11 @@ const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
     },
   ];
 
+  const languageItems: MenuProps['items'] = [
+    { key: 'en', label: 'English' },
+    { key: 'vi', label: 'Tiếng Việt' },
+  ];
+
   return (
     <Layout.Header className="custom-header">
       {collapsed ? (
@@ -83,9 +96,22 @@ const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
           onClick={() => setCollapsed(true)}
         />
       )}
-      <Dropdown menu={{ items, onClick: handleMenuClick }} placement="bottomRight">
-        <Avatar className="cursor-pointer" size="large" src="/img/avatars/14.png" />
-      </Dropdown>
+      <div className="right-header">
+        <Dropdown menu={{ items: languageItems, onClick: (e) => router.replace(pathname, { locale: e.key as 'en' | 'vi' }) }} placement="bottomRight">
+          <span className="cursor-pointer px-2">🌐 + { locale ?? defaultLocale }</span>
+        </Dropdown>
+        <span className="h-6 border border-gray-300 mr-1"></span>
+        <Dropdown
+          menu={{ items, onClick: handleMenuClick }}
+          placement="bottomRight"
+        >
+          <Avatar
+            className="cursor-pointer"
+            size="large"
+            src="/img/avatars/14.png"
+          />
+        </Dropdown>
+      </div>
     </Layout.Header>
   );
 };

@@ -2,15 +2,13 @@ import dayjs from "dayjs";
 import {
   JWT_KEY_ACEESS_TOKEN_NAME,
   USER_PROFILE_KEY_NAME,
-  EXPIRES_COOKIE_DAY,
   DEFAULT_ERROR_CODE,
 } from "@/constants/config/app";
 import { useValidator } from "./validator";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { setCookie, deleteCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
-import { clearToken, setProfile, setToken } from "@/store/slices/authSlice";
-import { LoginResponse } from "@/types/auth/res";
+import { clearToken } from "@/store/slices/authSlice";
 import { store } from "@/store/store";
 
 dayjs.extend(relativeTime);

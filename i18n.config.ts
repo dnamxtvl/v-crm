@@ -5,3 +5,8 @@ export const defaultLocale = "vi";
 export type Locale = (typeof locales)[number];
 export const { Link, usePathname, useRouter } =
     createSharedPathnamesNavigation({ locales });
+
+export const LANGUAGES = {
+    vi: 'vi',
+    en: 'en',
+}

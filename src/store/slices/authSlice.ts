@@ -27,23 +27,23 @@ const authSlice = createSlice({
     name: 'authSlice',
     initialState,
     reducers: {
-        setToken(state, action: PayloadAction<string>) {
+        setToken(state: any, action: PayloadAction<string>) {
             state.token = action.payload;
             state.isLogined = true
         },
-        clearToken(state) {
+        clearToken(state: any) {
             state.token = null;
             state.isLogined = false;
             state.userProfile = null;
         },
-        setProfile(state, action: PayloadAction<UserProfile>) {
+        setProfile(state: any, action: PayloadAction<UserProfile>) {
             state.userProfile = action.payload
         },
-        setLang(state, action: PayloadAction<string>) {
+        setLang(state: any, action: PayloadAction<string>) {
             state.lang = action.payload
         }
     },
 });
 
-export const { setToken, clearToken, setProfile } = authSlice.actions;
+export const { setToken, clearToken, setProfile, setLang } = authSlice.actions;
 export default authSlice.reducer;
