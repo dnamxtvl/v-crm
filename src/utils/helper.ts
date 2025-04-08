@@ -7,7 +7,7 @@ import {
 import { useValidator } from "./validator";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { setCookie, deleteCookie } from "cookies-next";
-import { useDispatch } from "react-redux";
+import { dispatch } from "@/store/store";
 import { clearToken } from "@/store/slices/authSlice";
 import { store } from "@/store/store";
 
@@ -20,8 +20,7 @@ const localeMessages = {
 
 export default class Helper {
   static logOutWhenTokenExpired = () => {
-    const dispatch = useDispatch();
-    setCookie("isLoggedIn", false);
+    setCookie("isLogined", false);
     deleteCookie(JWT_KEY_ACEESS_TOKEN_NAME);
     deleteCookie(USER_PROFILE_KEY_NAME);
 

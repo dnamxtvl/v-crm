@@ -6,6 +6,7 @@ import { HttpStatusCode } from 'axios';
 import Router from 'next/router';
 import { store } from '@/store/store';
 import { ROUTE_APP } from '@/constants/config/route';
+import { useAuth } from '@/hooks/useAuth';
 
 export const apiService = axios.create({
   headers: {
@@ -33,9 +34,10 @@ interface ErrorValidate {
 const handleError = async (error: AxiosError): Promise<AxiosError> => {
   const statusCode = error.response?.status || HttpStatusCode.InternalServerError;
   let messageError: Array<string> = [];
-  
+  console.log(statusCode);
   if (statusCode === HttpStatusCode.Unauthorized || statusCode === HttpStatusCode.GatewayTimeout) {
     Helper.logOutWhenTokenExpired();
+    console.log(error.message);
     message.error(error.message || 'error');
 
     Router.push(ROUTE_APP.AUTH.LOGIN);

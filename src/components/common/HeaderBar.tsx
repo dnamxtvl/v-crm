@@ -14,7 +14,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { ROUTE_APP } from '@/constants/config/route';
 import { useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
-import { defaultLocale } from '../../../i18n.config';
+import { defaultLang } from '../../../i18n.config';
 import { setLang } from '@/store/slices/authSlice';
 import { setCookie } from 'cookies-next';
 
@@ -83,6 +83,12 @@ const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
     { key: 'vi', label: 'Tiếng Việt' },
   ];
 
+  const switchLanguage = async (key: string) => {
+    dispatch(setLang(key));
+    setCookie('lang', key);
+    router.replace(pathname, { locale: key as 'en' | 'vi' })
+  }
+
   return (
     <Layout.Header className="custom-header">
       {collapsed ? (
@@ -97,8 +103,8 @@ const HeaderBar = ({ collapsed, setCollapsed }: Props) => {
         />
       )}
       <div className="right-header">
-        <Dropdown menu={{ items: languageItems, onClick: (e) => router.replace(pathname, { locale: e.key as 'en' | 'vi' }) }} placement="bottomRight">
-          <span className="cursor-pointer px-2">🌐 + { locale ?? defaultLocale }</span>
+        <Dropdown menu={{ items: languageItems, onClick: (e) => switchLanguage(e.key) }} placement="bottomRight">
+          <span className="cursor-pointer px-2">🌐 + { locale ?? defaultLang }</span>
         </Dropdown>
         <span className="h-6 border border-gray-300 mr-1"></span>
         <Dropdown
